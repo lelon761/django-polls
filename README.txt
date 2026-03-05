@@ -14,7 +14,7 @@ The Django Admin panel is used to manage questions and choices.
 
 1. Clone the repository
 
-git clone https://github.com/YOURUSERNAME/django-polls.git
+git clone https://github.com/lelon761/django-polls.git
 
 2. Navigate to the project folder
 
