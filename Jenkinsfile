@@ -30,13 +30,13 @@ pipeline {
 
         stage('Run Migrations') {
             steps {
-                sh '. venv/bin/activate && python manage.py migrate'
+                sh '. venv/bin/activate && python3 manage.py migrate'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh '. venv/bin/activate && python manage.py test'
+                sh '. venv/bin/activate && python3 manage.py test'
             }
         }
     }
