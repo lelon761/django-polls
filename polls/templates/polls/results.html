@@ -1,35 +1,29 @@
-{% load static %}
-<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+{% extends "polls/base.html" %}
 
-<header>
-    <a href="{% url 'polls:index' %}">Django Polls</a>
-</header>
+{% block title %}Results{% endblock %}
 
-<div class="container">
-<div class="card">
+{% block content %}
+    <h1>{{ question.question_text }}</h1>
+    <p class="subtitle">Here are the current voting results.</p>
 
-<h1>{{ question.question_text }}</h1>
+    <ul class="results-list">
+        {% for choice in question.choice_set.all %}
+            <li>
+                <div class="result-card">
+                    <div class="result-header">
+                        <span>{{ choice.choice_text }}</span>
+                        <span>{{ choice.votes }} vote{{ choice.votes|pluralize }}</span>
+                    </div>
+                    <div class="muted">Current response option</div>
+                </div>
+            </li>
+        {% empty %}
+            <li class="muted">No choices available.</li>
+        {% endfor %}
+    </ul>
 
-{% with total=question.choice_set.all|length %}
-<ul class="results">
-{% for choice in question.choice_set.all %}
-<li>
-    <div class="result-text">
-        {{ choice.choice_text }} — {{ choice.votes }} vote{{ choice.votes|pluralize }}
+    <div class="actions">
+        <a href="{% url 'polls:detail' question.id %}" class="button">Vote Again</a>
+        <a href="{% url 'polls:index' %}" class="button secondary">Back to Polls</a>
     </div>
-    <div class="bar-container">
-        <div class="bar" style="width: {{ choice.votes|add:0 }}0%;"></div>
-    </div>
-</li>
-{% endfor %}
-</ul>
-{% endwith %}
-
-<br>
-
-<a href="{% url 'polls:detail' question.id %}">
-<button>Vote again</button>
-</a>
-
-</div>
-</div>
+{% endblock %}

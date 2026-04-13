@@ -1,34 +1,37 @@
-{% load static %}
-<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+{% extends "polls/base.html" %}
 
-<header>
-    <a href="{% url 'polls:index' %}">Django Polls</a>
-</header>
+{% block title %}Vote{% endblock %}
 
-<div class="container">
-<div class="card">
-
-<form action="{% url 'polls:vote' question.id %}" method="post">
-{% csrf_token %}
-
-<fieldset>
-    <legend><h1>{{ question.question_text }}</h1></legend>
+{% block content %}
+    <h1>{{ question.question_text }}</h1>
+    <p class="subtitle">Select one option and submit your vote.</p>
 
     {% if error_message %}
-        <p><strong>{{ error_message }}</strong></p>
+        <div class="error-message">
+            {{ error_message }}
+        </div>
     {% endif %}
 
-    {% for choice in question.choice_set.all %}
-<label>
-    <input type="radio" name="choice" value="{{ choice.id }}">
-    {{ choice.choice_text }}
-</label>
-{% endfor %}
-</fieldset>
+    <form action="{% url 'polls:vote' question.id %}" method="post">
+        {% csrf_token %}
 
-<button type="submit">Vote</button>
+        {% for choice in question.choice_set.all %}
+            <div class="form-group">
+                <label class="choice-label" for="choice{{ forloop.counter }}">
+                    <input
+                        type="radio"
+                        name="choice"
+                        id="choice{{ forloop.counter }}"
+                        value="{{ choice.id }}"
+                    >
+                    {{ choice.choice_text }}
+                </label>
+            </div>
+        {% endfor %}
 
-</form>
-
-</div>
-</div>
+        <div class="actions">
+            <button type="submit" class="button">Submit Vote</button>
+            <a href="{% url 'polls:index' %}" class="button secondary">Back to Polls</a>
+        </div>
+    </form>
+{% endblock %}
