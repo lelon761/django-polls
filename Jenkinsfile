@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'lelon761/django-polls'
+        DOCKER_IMAGE = 'lelon7614/django-polls'
         EC2_USER = 'ubuntu'
         EC2_HOST = '18.191.209.203'
         DOCKER_CREDS = 'docker-hub-credentials'
