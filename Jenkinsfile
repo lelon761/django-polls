@@ -15,6 +15,15 @@ pipeline {
             }
         }
 
+        stage('Clean Docker Space') {
+            steps {
+                sh '''
+                    docker system prune -af || true
+                    docker builder prune -af || true
+                '''
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -57,6 +66,12 @@ pipeline {
         }
         failure {
             echo 'Deployment Failed.'
+        }
+        always {
+            sh '''
+                docker image prune -af || true
+                docker builder prune -af || true
+            '''
         }
     }
 }
