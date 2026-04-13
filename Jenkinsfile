@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'lelon7614/django-polls'
         EC2_USER = 'ubuntu'
-        EC2_HOST = '18.191.209.203'
+        EC2_HOST = '18.224.252.113'
         DOCKER_CREDS = 'docker-hub-credentials'
     }
 
