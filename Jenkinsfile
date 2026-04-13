@@ -8,35 +8,28 @@ pipeline {
             }
         }
 
-        stage('Verify Python') {
+        stage('Verify Docker') {
             steps {
-                sh 'python3 --version'
-                sh 'pip3 --version'
+                sh 'docker --version'
             }
         }
 
-        stage('Create Virtual Environment') {
+        stage('Build Docker Image') {
             steps {
-                sh 'python3 -m venv venv'
+                sh 'docker build -t django-app .'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Stop Old Container') {
             steps {
-                sh '. venv/bin/activate && pip install --upgrade pip'
-                sh '. venv/bin/activate && pip install -r requirements.txt'
+                sh 'docker stop django-container || true'
+                sh 'docker rm django-container || true'
             }
         }
 
-        stage('Run Migrations') {
+        stage('Run Docker Container') {
             steps {
-                sh '. venv/bin/activate && python3 manage.py migrate'
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                sh '. venv/bin/activate && python3 manage.py test'
+                sh 'docker run -d --name django-container -p 8000:8000 django-app'
             }
         }
     }
