@@ -43,21 +43,21 @@ pipeline {
             }
         }
 
-       stage('Deploy on EC2') {
-    steps {
-        sshagent(credentials: ['ec2-ssh-private-key']) {
-            sh """
-            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
-                docker pull ${DOCKER_IMAGE}:latest &&
-                docker stop django-polls-container || true &&
-                docker rm django-polls-container || true &&
-                docker run -d --name django-polls-container -p 80:8000 ${DOCKER_IMAGE}:latest &&
-                docker ps -a
-            '
-            """
+        stage('Deploy on EC2') {
+            steps {
+                sshagent(credentials: ['ec2-ssh-private-key']) {
+                    sh """
+                    ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
+                        docker pull ${DOCKER_IMAGE}:latest &&
+                        docker stop django-polls-container || true &&
+                        docker rm django-polls-container || true &&
+                        docker run -d --name django-polls-container -p 8000:8000 ${DOCKER_IMAGE}:latest &&
+                        docker ps -a
+                    '
+                    """
+                }
+            }
         }
-    }
-}
     }
 
     post {
