@@ -87,12 +87,12 @@ python manage.py runserver
 
 6. Open browser
 
-http://127.0.0.1:8000/polls/
+http://18.224.252.113:8000/polls/
 
 ## Admin Login
 
 * URL:
-  http://127.0.0.1:8000/admin/
+  http://18.224.252.113:8000/admin/
 * Username:
   admin
 * Password:
